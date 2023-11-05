@@ -1,29 +1,87 @@
-# Introduction to Redux
+# Installing Redux in a Project
 
-In this section, we will learn about Redux in isolation without React. It's important to note that Redux is similar to the `useReducer` hook. If you are familiar with Reducer, you can understand Redux more easily.
+In this guide, we'll go through the process of setting up Redux in your project. Previously, we worked on writing an object and a function. Now, we'll introduce Redux into our project.
 
-## 1. Create Initial State
+## 1. Install Redux
 
-## 2. Define Reducer Function
+To get started with Redux, open your terminal and run the following command:
 
-- The reducer function receives `state` and `action`.
-- The goal of this reducer is to calculate the new state based on the current state and the received action.
-- It's essential to remember that reducers are not allowed to modify the existing state, and they should not perform any asynchronous logic or other side effects. Instead, place as much logic as possible inside of them.
-- One key difference between Redux's reducer and `useReducer` hook's reducer is that in Redux, we directly pass the initial state as the default state:
-  - `useReducer`'s reducer: `function reducer(state, action) {}`
-  - Redux's reducer: `function reducer(state = initialState, action) {}`
-- We use a switch statement in the reducer function to select the action type. Actions dispatched to the Redux store should have a type and a payload, similar to how we define actions in the `useReducer` function.
+```bash
+npm i redux
+```
 
-## 3. Cases in the Switch Statement
+## 2. Importing the createStore Method
 
-- It is advised to name actions according to what happens or what should happen.
-- We structure action names in the shape of `state/domain/event-name`, for example, `account/deposit`.
+    Out of the Redux package we've just installed, we'll need to use the createStore method.
 
-## 4. Providing a Default Value
+    To use it, import it at the top of your JavaScript file from the Redux library.
 
-- In the `useReducer` hook's reducer function, we typically throw an error in the default case:
-  ```javascript
-  default:
-    throw new Error();
-  ```
-- However, in the case of Redux's reducer function, for some reason, it is advised not to throw an error. Instead, simply return the original state. If the reducer receives an action it doesn't recognize, it will simply return the original state back. This approach ensures that the state will not be updated when an unknown action is dispatched, but it also prevents errors from occurring in such cases.
+    Note that you might see a line-through on the createStore method. This is because the Redux team has declared it as deprecated. While there is a more modern way of using Redux called Redux Toolkit, it's recommended to learn the basics of Redux in this way first. Once you have a good understanding of Redux, you can transition to Redux Toolkit. Otherwise, Redux Toolkit might seem like magic, and you won't fully grasp what's happening.
+
+## 3. Calling createStore
+
+    Now that we have imported the createStore method, let's use it to create a store. Here's how:
+
+    ```bash
+    const store = createStore(reducer);
+    ```
+    With this store in place, we can start dispatching actions. You can use the store.dispatch() method to dispatch actions. It works in the same way as the dispatch function you might be familiar with from the useReducer hook in React.
+
+    For example, you can dispatch an action like this:
+
+     ```bash
+    store.dispatch({ type: 'account/deposit', payload: 500 });
+     ```
+     To see the result of these actions, follow these steps:
+
+a. Go to your index.js file and import the entire store file there:
+
+    ```bash
+    import './store';
+
+````
+b. By importing the store.js file in your index.js, you enable the execution of the code in that file.
+
+c. Any console.log statements in store.js will be displayed in the console.
+
+d. You can use the following code to log the current state of your Redux store:
+
+ ```bash
+     console.log(store.getState());
+ ```
+ The console will display the current state, which might look something like this:
+
+ ```bash
+     { balance: 500, loan: 0, loanPurpose: '' };
+ ```
+Congratulations, you now have Redux working in your project in a straightforward way!
+
+## 4. Storing account/requestLoan with Payload
+
+In Redux, you can store the account/requestLoan action with a payload. This payload can be an object, allowing you to pass multiple pieces of data. Here's an example:
+
+ ```bash
+     store.dispatch({ type: 'account/requestLoan', payload: { amount: 1000, purpose: 'Buy a car' } });
+ ```
+
+ To see the result of this action, you can log the current state of your Redux store:
+
+   ```bash
+ console.log(store.getState());
+    ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+````
