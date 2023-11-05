@@ -6,7 +6,7 @@ In this guide, we'll go through the process of setting up Redux in your project.
 
 To get started with Redux, open your terminal and run the following command:
 
-```bash
+```javascript
 npm i redux
 ```
 
@@ -22,21 +22,21 @@ npm i redux
 
     Now that we have imported the createStore method, let's use it to create a store. Here's how:
 
-    ```bash
+    ```javascript
     const store = createStore(reducer);
     ```
     With this store in place, we can start dispatching actions. You can use the store.dispatch() method to dispatch actions. It works in the same way as the dispatch function you might be familiar with from the useReducer hook in React.
 
     For example, you can dispatch an action like this:
 
-     ```bash
+     ```javascript
     store.dispatch({ type: 'account/deposit', payload: 500 });
      ```
      To see the result of these actions, follow these steps:
 
 a. Go to your index.js file and import the entire store file there:
 
-    ```bash
+    ```javascript
     import './store';
 
 ````
@@ -46,12 +46,12 @@ c. Any console.log statements in store.js will be displayed in the console.
 
 d. You can use the following code to log the current state of your Redux store:
 
- ```bash
+ ```javascript
      console.log(store.getState());
  ```
  The console will display the current state, which might look something like this:
 
- ```bash
+ ```javascript
      { balance: 500, loan: 0, loanPurpose: '' };
  ```
 Congratulations, you now have Redux working in your project in a straightforward way!
@@ -60,13 +60,13 @@ Congratulations, you now have Redux working in your project in a straightforward
 
 In Redux, you can store the account/requestLoan action with a payload. This payload can be an object, allowing you to pass multiple pieces of data. Here's an example:
 
- ```bash
+ ```javascript
      store.dispatch({ type: 'account/requestLoan', payload: { amount: 1000, purpose: 'Buy a car' } });
  ```
 
  To see the result of this action, you can log the current state of your Redux store:
 
-   ```bash
+   ```javascript
  console.log(store.getState());
     ```
 
