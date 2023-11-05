@@ -1,54 +1,30 @@
 import { createStore } from 'redux';
 
-/** INSTALLING REDUX IN PROJECT
- * So previously we did was writing an object and a function
- * So we didn't used Redux yet, now after setting up everything now we need it
+/** CREATING ACTION CREATOR FUNCTIONS
+ * ACTION CREATOR FUNCTIONS are nothing more than simply functions that return actions
+ * they are not really redux thing, so redux would work perfectly fine wothout them but
+ * they are usefull convention that redux developers have used forever.
  *
- * 1) To install redux, in terminal type:
- * * npm i redux
+ * So Redux would work without action creator's but since it's a convention let's create some
  *
- * 2) Now out of this redux package we will now take:
- * * create store method
- * i) so let's import it on top from redux
- * ii) as soon as we import it we can see that it has a line-through on it
- * the reason for that is the Redux Team declared that this method is depracated.
- * As i mentioned earlier there is now more modern way of writing Redux which is Redux tool-kit.
- * But it is way better to first learn Redux in this way and once we have all the Redux knowledge
- * then we can transition to the Redux tool kit, otherwise everything will really just seem like magic
- * as it just works too easily and you will have no idea what's just going on...
+ * 1) We will be creating 1 action creator for each possible actions
+ ** function deposit(amount) { return( { type: 'account/deposit', payload: amount } ) };
+ ** function withdraw() {};
+ ** function requestLoan() {};
+ ** function payLoan() {};
+ * These function only returns action's
+ * We have passed in amount variable as it will be depended on the user input
+ * i) Now let's see how do we use this with first example of deposit function
+ * lke we logged to the console in previous lecture 02/feature, so how do we log values
+ * using this method?
  *
- * 3) Calling createStore
- * i) So now let's call the createStore function with the reducer and store it inside store
- * * const store = createStore(reducer)
- * and that's it
- * ii) now we can dispatch actions on the store we created
- * eg, we can do:
+ * so we still call the
  * * store.dispatch()
- * This is going to work in the exact same way as the dispatch function that we got as a result
- * of calling the useReducer hook, so this dispatch function is basically what we already know
- * from useReducer and so this is where now we can pass in an event
- * * store.dispatch({type: 'account/deposit', payload: 500});
- * iii) now how do we execute this and see the result
- * a) go to index.js file, and import entire store file there
- * b) import './store'
- * c) by doing this we will be able to run the store.js code
- * d) so for example if we console.log anything in this store.js
- * the output will be shown on log when we run this application
- * e) so what we are interested in to log to the console is:
- * * console.log(store.getState());
- * This will show us the current state of our store
- * as the result we get on the console:
- * ! {balance: 500, loan: 0, loanPurpose: ''};
- * iv) now we have our redux working in a simple way
- *
- * 4) Now let's store account/requestLoan but in here in payload we will be passing
- * an object which we haven't done something like this before before, but this is perfectly fine and nothing to worry
- * as by doing this we can pass in multiple pieces of data.
- * 
- store.dispatch({ type: 'account/requestLoan', payload: { amount: 1000, purpose: ' Buy a car' },
-});
-console.log(store.getState());
- *
+ * but then inside just writing an event we call the deposit function with our amount
+ * * store.dispatch(desposit(500))
+ * then we log state to the console
+ * * console.log(store.getState())
+ * ! REFER IMAGE... to verify
  */
 
 const initialState = {
@@ -89,14 +65,24 @@ function reducer(state = initialState, action) {
 
 const store = createStore(reducer);
 
-store.dispatch({ type: 'account/deposit', payload: 500 });
+function deposit(amount) {
+  return { type: 'account/deposit', payload: amount };
+}
+function withdraw(amount) {
+  return { type: 'account/withdraw', payload: amount };
+}
+function requestLoan(amount, purpose) {
+  return { type: 'account/requestLoan', payload: { amount, purpose } };
+}
+function payLoan() {
+  return { type: 'account/payLoan' };
+}
+
+store.dispatch(deposit(500));
+store.dispatch(withdraw(200));
 console.log(store.getState());
 
-store.dispatch({
-  type: 'account/requestLoan',
-  payload: { amount: 1000, purpose: ' Buy a car' },
-});
+store.dispatch(requestLoan(1000, 'buy a cheap car'));
 console.log(store.getState());
-
-store.dispatch({ type: 'account/payLoan' });
+store.dispatch(payLoan());
 console.log(store.getState());
