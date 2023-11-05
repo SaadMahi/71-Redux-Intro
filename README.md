@@ -26,3 +26,4 @@ In this section, we will learn about Redux in isolation without React. It's impo
   default:
     throw new Error();
   ```
+- However, in the case of Redux's reducer function, for some reason, it is advised not to throw an error. Instead, simply return the original state. If the reducer receives an action it doesn't recognize, it will simply return the original state back. This approach ensures that the state will not be updated when an unknown action is dispatched, but it also prevents errors from occurring in such cases.
