@@ -1,70 +1,33 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+USING Account reducer & Customer reducer COMBINED
 
-## Available Scripts
+i) we already have this account reducer stored in store
+const store = createStore(accountReducer);
+ 
+ii) but how do we now store this Customer Reducer.
+So do you remember that in Redux we don't dispatch actions
+directly to the reducer but to the store and that's what we did using
+store.dispatch(deposit(500));
 
-In the project directory, you can run:
+iii) now we cannot simply pass in another customerReducer to this store:
+const store = createStore(accountReducer);
+instead we need to combine all the reducers we have in
+order to create one so called root reducer, because this reducer
+createStore();
+receives is always considered root reducer
+iv) so we combine all the reducers, we will use
+combineReducers(); // function from redux (IMPORT AT TOP)
+in this we will specify an object and then we need to give
+each reducers a meaning full name
+const rootReducer = combineReducers({ account: accountReducer, customer: customerReducer })
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+v) now in end we use this rootReducer in store
+const store = createStore(rootReducer);
+vi) now we can dispatch easily just by using function name
+store.dispatch(createCustomer('Mahimkar Saad', '2105690238')); // console.log(store.getState());
+store.dispatch(deposit(500));  // console.log(store.getState());
+and we will get the output on our console do check the figure 1.1
+ 
+vii) and point to be noted here, redux is very smart enough to know if the action type belongs to
+to the customerReducer or accountReducer, as you can see in point vi) we dispatched
+createCustomer and deposit from both reducers using same convention 'store.dispatch'
