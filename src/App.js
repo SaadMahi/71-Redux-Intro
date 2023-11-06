@@ -14,7 +14,7 @@ function App() {
       {fullName === '' ? (
         <CreateCustomer />
       ) : (
-        <div>
+        <>
           <Customer />
           <AccountOperations />
           <BalanceDisplay />
