@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+
 /** READING DATA FROM REDUX STORE
  * In order to read data from Redux store all we have to do is use hook:
  * * useSelector()
@@ -13,11 +15,14 @@
  * rootReducer inside and inside of it we have customer
  * iii) then after getting the data we can store that into any variable we want
  * * const customer = useSelector(store => store.customer);
- *
+ * iv) refer fig 1 for out, the out will be empty but that's fine we will work on that later
+ * important thing to understand is that how it works
  */
 
 function Customer() {
-  return <h2>👋 Welcome, %NAME%</h2>;
+  const customer = useSelector((store) => store.customer);
+
+  return <h2>👋 Welcome, {customer}</h2>;
 }
 
 export default Customer;
