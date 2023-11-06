@@ -27,7 +27,8 @@ vi) now we can dispatch easily just by using function name
 store.dispatch(createCustomer('Mahimkar Saad', '2105690238')); // console.log(store.getState());
 store.dispatch(deposit(500));  // console.log(store.getState());
 and we will get the output on our console do check the figure 1.1
- 
+ ![1 1](https://github.com/SaadMahi/71-Redux-Intro/assets/117567622/2f548155-e975-4676-b51b-253945ee9042)
+
 vii) and point to be noted here, redux is very smart enough to know if the action type belongs to
 to the customerReducer or accountReducer, as you can see in point vi) we dispatched
 createCustomer and deposit from both reducers using same convention 'store.dispatch'
