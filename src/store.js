@@ -1,60 +1,61 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
 import accountReducer from './features/accounts/accountSlice';
 import customerReducer from './features/customers/customerSlice';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
 
-/** REDUX DEVELOPER TOOLS
- * Redux comes with some amazing developer tools
- * just like React, let's now install and use those developer tools
- * installing the redux dev tool is a 3 step process:
- * 1) so go install the Redux dev tool extensio into your browser
- * 2) install the corresponding npm package
- * * npm i redux-devtools-extension
- * i) now this npm package gives us one function that we need to use we need to import that at top
- * * import { composeWithDevTools } from 'redux-devtools-extension';
- * ii) now we need to wrap the Middleware with the composeWithDevTools
- * iii) give it a save and we are good to go, now it really doesn't matters why we need to write
- * it in this way or what's going behind the scenes, but that's it we need to do
- * iv) but by now we should get the new tab for redux in our developer tools:
- * ! refer figure 1
+import { configureStore } from '@reduxjs/toolkit';
+
+/** REDUX-TOOL KIT (NEW-MODERN WAY OF WRITING REDUX)
+ * The redux tool-kit is 100% compatible with the regular redux
+ * we learned and applied till now, that means we can convert our
+ * store and leave the slices pages we created as they are.
  *
- * v) when we click this we get our Redux dev tools:
- * ! refer figure 2
+ * 1) So let's install this new tool:
+ * * npm i @reduxjs/toolkit
  *
- * 3) Now to test these we need to dispatch some actions
- * ! refer figure 3, 3.1 //
- * circled red is our first action dispatched with the name customer/createCustomer
+ * 2) Now remember we previously discussed that the
+ * * { createStore } from 'redux'
+ * is depracate. Now we will use the configureStore() method instead so at the top import:
+ * * import { configureStore } from '@reduxjs/toolkit';
+ * i) so this configureStore function basically wraps around createStore and adds a few
+ * functionalities to it, So configureStore does alot of things automatically for us
+ * ii) it automatically combines reducers
+ * iii) it automatically adds the thunk Middleware
+ * iv) It also automatically set's up the developer tools for us this part:
+ * * composeWithDevTools(applyMiddleware(thunk))
+ * v) so all of these are created automatically and in the end our store is created and returned
  *
- * 4) we can also see the action object, with the type and the payload
- * ! figure 4
- * and also see the state that resulted after dispatching the action
- * ! figure 4.1
- * i) cool feature in it we also have is that we can jump back to previous state
- * ii) for example we have balance 0, then we deposited money now we have balance
- * 200, now we can click jump on previous state which will give us zero balance on UI
- * iii) you can also use slider(video player) to track each and every state change
- * iv) So this can be really use full when we have alot of different state transitions
- * and a really complex state, then we can time travel between these state transitions
- * in order to maybe find some bugs or some problems we might encounter
+ * 3) so i have copied all the old methods in storeOldMethod-v1.js, you can refer that file
+ * to check the classic redux store but now here in the modern method we don't need those all
+ * so we are removing everything the
+ * i) combiner
+ * ii) middleware
+ * iii) thunk
+ * iv) createStore
  *
- * v) you can also dispatch manually as per your will
- * ! figure 4.2, 4.3
- * so it updated the name right there, so this can be quite helpful if we just want to
- * manually dispatch some actions without having to wireup like some buttons in the Ui
+ * 4) So instead all we need is this at top:
+ * * import { configureStore } from '@reduxjs/toolkit';
+ * a) now to use this we simply call and inside we pass in object of options
+ * * configureStore({})
+ * i) so in here we can specify the root reducer property in which we tell the redux tool kit about
+ * our two reducers account and customer
+ * ii) store it in store variable so the result of it stays in the store
+ * iii) now our application is working in the exact way same as before
  *
+ * 5) So see now how easy it is to setup an redux application all we have to do is
+ * i) call configureStore
+ * ii) and pass in our two reducers
+ *
+ * 6) Now the part where we connect the React application with Redux works in the exact same way
+ * as we did before, nothing chnages with the React-Redux package
+ *
+ * 7) So about the state slices, react-tool kit can help us writing those
+ * So in the customer slice and account slice we can write the entire logic in a different way
  */
 
-// !__________REDUCER COMBINER__________! \\
-const rootReducer = combineReducers({
-  account: accountReducer,
-  customer: customerReducer,
+const store = configureStore({
+  reducer: {
+    account: accountReducer,
+    customer: customerReducer,
+  },
 });
-
-// !__________CREATED STORE__________! \\
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
-);
 
 export default store;
