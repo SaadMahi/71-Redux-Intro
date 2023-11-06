@@ -1,40 +1,21 @@
-# Converting Account State Slice into Redux Toolkit
+# Bringing Back Our Thunks - Handling Currency Conversion
 
-In this code, we convert the account state slice into a more modern and streamlined approach using Redux Toolkit. Here's a step-by-step overview of the transition:
+In this section, we revisit the concept of thunks, which enable asynchronous actions in Redux. To achieve this functionality, we have two options: using the `createAsyncThunk` function provided by Redux Toolkit or leveraging a simpler approach with custom action creators, which we explore here.
 
-1. **Introduction to Redux Toolkit**:
+## 1. Using Custom Action Creators
 
-   - We are transitioning to Redux Toolkit, which simplifies the Redux setup.
-   - Begin by installing Redux Toolkit using `npm i @reduxjs/toolkit`.
+We begin by explaining that we can restore the thunk functionality using custom action creators. While Redux Toolkit offers `createAsyncThunk`, we opt for the straightforward approach of reusing existing action creators. We also clarify that using `createAsyncThunk` will be covered in a future project.
 
-2. **Replacing `createStore` with `configureStore`**:
+## 2. Copying Code
 
-   - In the modern approach, we switch from using `{ createStore }` from 'redux' to `{ configureStore }` from '@reduxjs/toolkit'.
-   - `configureStore` streamlines the configuration process, including handling reducer combination, adding the thunk middleware, and setting up developer tools.
-   - One of the key advantages is that we can now directly mutate the state within reducers, thanks to Redux Toolkit's use of Immer library.
+We suggest copying the code from the commented area, as it works effectively for creating thunks. Thunks are automatically provided in Redux Toolkit, requiring no additional setup. The only modification needed is to remove the `{ deposit }` action creator.
 
-3. **Simplifying the Store Setup**:
+## 3. Maintaining Naming Conventions
 
-   - Unlike the classic Redux store setup, we no longer need to manually manage the reducer combination, middleware, or thunk.
-   - We import `{ configureStore }`, call it, and specify the root reducer property, where we specify our reducers.
+To ensure the code works seamlessly, we emphasize the importance of maintaining consistent naming conventions. The `name` property in the `accountSlice` and the action type format should match. This convention allows Redux to associate the action creator with the reducer correctly.
 
-4. **Effortless Configuration**:
+## 4. Creating the `convertingCurrency` Reducer
 
-   - Setting up the store becomes straightforward with a call to `configureStore` and defining reducers.
-   - Check the created slice to see the automatically generated action creators and reducers.
+We introduce a new reducer, `convertingCurrency`, responsible for setting the `isLoading` state to `true`. This is essential to indicate that a currency conversion is in progress.
 
-5. **Enhancing State Slices**:
-
-   - Redux Toolkit allows for more intuitive state slice definition and management.
-   - Create slices using the `createSlice` function and notice the improvement in defining reducers and action creators.
-
-6. **Customizing Action Creators**:
-
-   - While action creators are automatically generated, we can't easily make them accept multiple arguments.
-   - A solution is to prepare the data before it reaches the reducer by defining a `prepare` method.
-
-7. **Conclusion**:
-   - You have the choice to stick with your existing Redux slices or embrace the modern approach offered by Redux Toolkit.
-   - The transition to Redux Toolkit simplifies state management, reduces boilerplate code, and streamlines the overall configuration.
-
-In summary, Redux Toolkit offers an enhanced way to work with Redux, making it more user-friendly and efficient. It retains compatibility with React-Redux and simplifies state slice management and configuration.
+In summary, we demonstrate how to re-implement thunks in Redux without the need for additional tooling. We stress the importance of naming conventions and explain how the `convertingCurrency` reducer fits into the state management.
