@@ -1,21 +1,53 @@
-# Middleware and Redux Thunk Usage
+# Setting Up Redux Developer Tools
 
-Middleware, specifically Redux Thunk, is a crucial component in the provided code. It is used to manage asynchronous actions within a Redux-based application. Redux Thunk acts as an intermediary layer that intercepts actions before they reach the reducer, facilitating the execution of asynchronous operations like API calls and data fetching. It is applied to the Redux store, acting as a bridge between action initiation and the final state update.
+The provided code sets up a Redux store with the integration of Redux Developer Tools using the `redux-devtools-extension`. This description explains how Redux Developer Tools are incorporated into the code:
 
-## Middleware Setup
+## 1. Setting Up Redux Developer Tools
 
-In the code, the `store.js` file configures the Redux store by integrating Redux Thunk as middleware. This enables the handling of asynchronous actions seamlessly within the application. Redux Thunk is particularly valuable when dealing with actions that involve complex operations beyond simple action objects.
+Redux Developer Tools provide powerful debugging and state inspection capabilities. To use them, a few steps need to be followed.
 
-## Asynchronous Action Handling
+## 2. Installing the Browser Extension
 
-An excellent example of Redux Thunk in action can be found in the `accountSlice.js` file, specifically in the `deposit` action creator. When a deposit action is dispatched, it is capable of managing different currencies. If the selected currency is 'USD,' a standard action is dispatched directly, updating the account balance.
+The first step is to install the Redux Dev Tools extension in your web browser. This extension enhances the debugging experience by allowing you to inspect and manipulate the state and actions.
 
-However, if the currency is different from 'USD,' the deposit action creator returns an asynchronous function instead of a regular action object. This asynchronous function accepts two essential arguments: `dispatch` and `getState`. These parameters empower it to handle complex operations asynchronously, such as making an API call to fetch currency conversion rates and subsequently dispatching an action to update the account balance.
+## 3. Installing the Corresponding NPM Package
 
-## Middleware in Action
+In addition to the browser extension, the code installs the corresponding npm package required for Redux Developer Tools. This package is installed using the following command:
 
-Redux Thunk functions as the intermediary that inserts middleware logic between action dispatch and the reducer. When a deposit action involves currency conversion, Redux Thunk steps in, enabling the execution of asynchronous code. Once the asynchronous operations are completed, a new action is dispatched, carrying the updated data and subsequently reaching the store to update the state.
+```bash
+npm i redux-devtools-extension
+```
 
-## Conclusion
+## 4. Importing composeWithDevTools
 
-In summary, Redux Thunk middleware serves as the bridge that seamlessly integrates asynchronous actions into the Redux state management flow. It is particularly beneficial for handling complex operations such as currency conversion or API calls, ensuring the application can effectively manage asynchronous tasks.
+The code imports the composeWithDevTools function from the 'redux-devtools-extension' package. This function will be used to enhance the store setup with Redux Developer Tools.
+
+## 5. Enhancing Middleware with Redux Developer Tools
+
+To enable Redux Developer Tools, the code wraps the existing middleware, in this case, Redux Thunk, with the composeWithDevTools function. This enhances the middleware setup with debugging capabilities.
+
+```js
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+);
+```
+
+## 6. Accessing Redux Developer Tools
+
+Once the Redux store is configured with Redux Developer Tools, you can access the developer tools in your web browser. Typically, you'll find a new tab for Redux in the developer tools.
+
+## 7. Exploring Developer Tools Features
+
+The description highlights some key features of Redux Developer Tools, including:
+
+- Viewing dispatched actions, their type, and payload.
+- Inspecting the state after each action.
+- Time-traveling between different state transitions to identify issues.
+- Manually dispatching actions from the developer tools.
+
+## 8. Manual Action Dispatch
+
+Redux Developer Tools offer the capability to manually dispatch actions from the tools. This can be helpful for testing and debugging, allowing developers to interactively trigger actions without the need to wire up UI components.
+
+In summary, the code enhances the Redux store setup with Redux Developer Tools, providing a valuable set of debugging and inspection features for monitoring state changes, debugging, and testing within the application. These tools are a powerful aid for Redux developers in diagnosing issues, understanding state changes, and manually triggering actions for testing purposes.
