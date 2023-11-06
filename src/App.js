@@ -5,6 +5,7 @@ import BalanceDisplay from './features/accounts/BalanceDisplay';
 import { useSelector } from 'react-redux';
 
 function App() {
+  // getting fullName from redux store
   const fullName = useSelector((state) => state.customer.fullName);
 
   return (
