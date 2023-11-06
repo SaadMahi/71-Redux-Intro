@@ -1,15 +1,21 @@
-# Reading Data from the Redux Store in a React Component
+# Dispatching Actions to the Redux Store from React Components
 
-This code and documentation explain the process of reading data from the Redux Store within a React component using the `useSelector` hook provided by the `react-redux` package. Here's a concise description:
+This code and documentation explain the process of dispatching actions to the Redux Store from React components using the `useDispatch` hook provided by the `react-redux` package. Here's a concise description:
 
-## Reading Data from Redux Store
+## Dispatching Actions to Redux Store
 
-To access data from the Redux store, you can use the `useSelector` hook, which is provided by the `react-redux` package.
+In this setup, the goal is to dispatch an action that creates a new customer. To achieve this, the following steps are taken:
 
-## The `useSelector()` Hook
+## Accessing the Dispatch Function
 
-- The `useSelector` hook takes a callback function as its argument, which receives the entire Redux store.
-- Within this callback, you can retrieve the specific data you need from the store, such as `useSelector(store => store.customer)`, which corresponds to the data structure defined in the `store.js` file.
-- After obtaining the desired data, you can store it in a variable for use in your component.
+- To dispatch actions within a React component, you need to access the dispatch function, which is how actions are sent to the Redux store.
+- The `useDispatch` hook is used to obtain the dispatch function, and it is stored in a variable like `const dispatch = useDispatch()`.
 
-By utilizing the `useSelector` hook, you can seamlessly access and use data from the Redux store within your React components, enhancing their interactivity and functionality.
+## Handling the Action Dispatch
+
+- Within the component, you can use the dispatch function in response to an event, such as a button click.
+- In this example, when the "Create new customer" button is clicked, the `handleClick` function is called.
+- The dispatch function is used to dispatch the `createCustomer` action creator with the relevant data, such as `fullName` and `nationalId` provided by the user.
+- Before dispatching, data validation can be performed, ensuring that both `fullName` and `nationalId` fields are not empty.
+
+By following these steps, you can easily dispatch actions from your React components, allowing for the interaction between your application's UI and the Redux store. The action creators defined in the `customerSlice.js` file facilitate the creation and dispatch of actions for specific functionalities.
