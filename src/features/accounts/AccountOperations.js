@@ -13,8 +13,9 @@ function AccountOperations() {
   const dispatch = useDispatch();
 
   // reading data from store
-  const account = useSelector((store) => store.account);
-  console.log(account);
+  const { loan: currentLoan, loanPurpose: currentloanPurpose } = useSelector(
+    (store) => store.account
+  );
 
   function handleDeposit() {
     if (!depositAmount) return;
@@ -91,10 +92,14 @@ function AccountOperations() {
           <button onClick={handleRequestLoan}>Request loan</button>
         </div>
 
-        <div>
-          <span>Pay back $X</span>
-          <button onClick={handlePayLoan}>Pay loan</button>
-        </div>
+        {currentLoan > 0 && (
+          <div>
+            <span>
+              Pay back ${currentLoan} ({currentloanPurpose}){' '}
+            </span>
+            <button onClick={handlePayLoan}>Pay loan</button>
+          </div>
+        )}
       </div>
     </div>
   );
