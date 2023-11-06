@@ -1,31 +1,35 @@
-import { createStore } from 'redux';
+import { combineReducers, createStore } from 'redux';
 
-/** CREATING ACTION CREATOR FUNCTIONS
- * ACTION CREATOR FUNCTIONS are nothing more than simply functions that return actions
- * they are not really redux thing, so redux would work perfectly fine wothout them but
- * they are usefull convention that redux developers have used forever.
- *
- * So Redux would work without action creator's but since it's a convention let's create some
- *
- * 1) We will be creating 1 action creator for each possible actions
- ** function deposit(amount) { return( { type: 'account/deposit', payload: amount } ) };
- ** function withdraw() {};
- ** function requestLoan() {};
- ** function payLoan() {};
- * These function only returns action's
- * We have passed in amount variable as it will be depended on the user input
- * i) Now let's see how do we use this with first example of deposit function
- * lke we logged to the console in previous lecture 02/feature, so how do we log values
- * using this method?
- *
- * so we still call the
- * * store.dispatch()
- * but then inside just writing an event we call the deposit function with our amount
- * * store.dispatch(desposit(500))
- * then we log state to the console
- * * console.log(store.getState())
- * ! REFER IMAGE... to verify
+/** USING Account reducer & Customer reducer COMBINED
+ * i) we already have this account reducer stored in store
+ * * const store = createStore(accountReducer);
+ * ii) but how do we now store this Customer Reducer.
+ * So do you remember that in Redux we don't dispatch actions
+ * directly to the reducer but to the store and that's what we did using
+ * * store.dispatch(deposit(500));
+ * iii) now we cannot simply pass in another customerReducer to this store:
+ * * const store = createStore(accountReducer);
+ * instead we need to combine all the reducers we have in
+ * order to create one so called root reducer, because this reducer
+ * * createStore();
+ * receives is always considered root reducer
+ * iv) so we combine all the reducers, we will use
+ * * combineReducers(); // function from redux (IMPORT AT TOP)
+ * in this we will specify an object and then we need to give
+ * each reducers a meaning full name
+ * * const rootReducer = combineReducers({ account: accountReducer, customer: customerReducer })
+ * v) now in end we use this rootReducer in store
+ * * const store = createStore(rootReducer);
+ * vi) now we can dispatch easily just by using function name
+ * store.dispatch(createCustomer('Mahimkar Saad', '2105690238')); // console.log(store.getState());
+ * store.dispatch(deposit(500));  // console.log(store.getState());
+ * and we will get the output on our console do check the figure 1.1
+ * vii) and point to be noted here, redux is very smart enough to know if the action type belongs to
+ * to the customerReducer or accountReducer, as you can see in point vi) we dispatched
+ * createCustomer and deposit from both reducers using same convention 'store.dispatch'
  */
+
+//**************** ACCOUNT REDUCER ****************//
 
 const initialStateAccount = {
   balance: 0,
@@ -33,7 +37,7 @@ const initialStateAccount = {
   loanPurpose: '',
 };
 
-function reducer(state = initialStateAccount, action) {
+function accountReducer(state = initialStateAccount, action) {
   switch (action.type) {
     case 'account/deposit':
       return { ...state, balance: state.balance + action.payload };
@@ -63,7 +67,43 @@ function reducer(state = initialStateAccount, action) {
   }
 }
 
-const store = createStore(reducer);
+//**************** CUSTOMER REDUCER ****************//
+
+const initialStateCustomer = {
+  fullName: '',
+  nationalID: '',
+  createdAt: '',
+};
+
+function customerReducer(state = initialStateCustomer, action) {
+  switch (action.type) {
+    case 'customer/createCustomer':
+      return {
+        ...state,
+        fullName: action.payload.fullName,
+        nationalID: action.payload.fullName,
+        createdAt: action.payload.fullName,
+      };
+    case 'customer/updateName':
+      return {
+        ...state,
+        fullName: action.payload,
+      };
+    default:
+      return state;
+  }
+}
+
+// !__________REDUCER COMBINER__________! \\
+
+const rootReducer = combineReducers({
+  account: accountReducer,
+  customer: customerReducer,
+});
+
+const store = createStore(rootReducer);
+
+//*__________ ACCOUNT DISPATCHING __________*//
 
 function deposit(amount) {
   return { type: 'account/deposit', payload: amount };
@@ -85,4 +125,19 @@ console.log(store.getState());
 store.dispatch(requestLoan(1000, 'buy a cheap car'));
 console.log(store.getState());
 store.dispatch(payLoan());
+console.log(store.getState());
+
+function createCustomer(fullName, nationalID) {
+  return {
+    type: 'customer/createCustomer',
+    payload: { fullName, nationalID, createdAt: new Date().toISOString() },
+  };
+}
+
+function updateName(fullName) {
+  return { type: 'customer/updateName', payload: fullName };
+}
+
+//*__________ CUSTOMER DISPATCHING __________*//
+store.dispatch(createCustomer('Mahimkar Saad', '2105690238'));
 console.log(store.getState());
